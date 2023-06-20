@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @program: Document
@@ -15,38 +16,49 @@ import java.util.List;
  **/
 @Service
 public class DocumentService {
-    @Autowired
     DocumentDao dao;
 
-    public Document getDocument(int id) {
-        if (dao.getDocument(id) == null) {
-            throw new RuntimeException();
-        }
-        return dao.getDocument(id);
+    @Autowired
+    public DocumentService(DocumentDao dao) {
+        this.dao = dao;
     }
 
-    public void updateDocument(int id, Document document) {
-        if (dao.getDocument(id) == null) {
+
+    public Document getDocument(int id) {
+        Optional<Document> optionalDocument = dao.findById(id);
+        if (optionalDocument.isEmpty()) {
             throw new RuntimeException();
         }
-        dao.updateDocument(id, document);
+        return optionalDocument.get();
+    }
+
+    public Document updateDocument(int id, String content) {
+        Optional<Document> optionalDocument = dao.findById(id);
+        if (optionalDocument.isEmpty()) {
+            throw new RuntimeException();
+        }
+        Document doc = optionalDocument.get();
+        doc.setContent(content);
+        return dao.save(doc);
     }
 
     public List<Document> listDocuments() {
-        return dao.listDocuments();
+        return dao.findAll();
     }
 
     public Document createDocument(Document document) {
-        if (dao.getDocument(document.getId()) != null) {
+        Optional<Document> optionalDocument = dao.findById(document.getId());
+        if (optionalDocument.isPresent()) {
             throw new RuntimeException();
         }
-        return dao.createDocument(document);
+        return dao.save(document);
     }
 
     public void deleteDocument(int id) {
-        if (dao.getDocument(id) == null) {
+        Optional<Document> optionalDocument = dao.findById(id);
+        if (optionalDocument.isEmpty()) {
             throw new RuntimeException();
         }
-        dao.deleteDocument(id);
+        dao.deleteById(id);
     }
 }

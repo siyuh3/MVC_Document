@@ -47,9 +47,9 @@ public class DocumentController {
     }
 
     @PutMapping("/documents/{id}")
-    public ResponseEntity<String> updateDocument(@PathVariable int id, @RequestBody Document document) {
+    public ResponseEntity<String> updateDocument(@PathVariable int id, @RequestBody String content) {
         try {
-            service.updateDocument(id, document);
+            service.updateDocument(id, content);
             return ResponseEntity.status(HttpStatus.OK).body("Success update");
         }
         catch (Exception e) {
