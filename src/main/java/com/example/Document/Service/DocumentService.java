@@ -27,7 +27,7 @@ public class DocumentService {
     public Document getDocument(int id) {
         Optional<Document> optionalDocument = dao.findById(id);
         if (optionalDocument.isEmpty()) {
-            throw new RuntimeException();
+            throw new RuntimeException("Document not found");
         }
         return optionalDocument.get();
     }
