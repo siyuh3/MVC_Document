@@ -1,17 +1,11 @@
 package com.example.Document.Controller;
-
 import com.example.Document.Entity.Document;
 import com.example.Document.Service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: Document
@@ -20,7 +14,7 @@ import java.util.Map;
  * @create: 2023-06-15 18:08
  **/
 @ResponseBody
-@Controller
+@RestController
 public class DocumentController {
     @Autowired
     DocumentService service;
